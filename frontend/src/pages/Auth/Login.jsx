@@ -18,7 +18,6 @@ const Login = () => {
   const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'icloud.com'];
   const navigate = useNavigate();
 
-  // Email o'zgarganda takliflarni chiqarish
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
@@ -35,23 +34,21 @@ const Login = () => {
     setSuggestions([]);
   };
 
-  // Handle Login Form Submission
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      setError('Please enter a valid email address.');
+      setError('Iltimos, haqiqiy email manzil kiriting.');
       return;
     }
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters long.');
+      setError('Parol kamida 8 ta belgidan iborat bo‘lishi kerak.');
       return;
     }
 
     setError('');
 
-    // Login API Call
     try {
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
         email,
@@ -68,7 +65,7 @@ const Login = () => {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
-        setError('Login failed. Please try again.');
+        setError('Kirish amalga oshmadi. Iltimos, qaytadan urinib ko‘ring.');
       }
     }
   };
@@ -76,19 +73,18 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center">
-        <h3 className="text-xl font-semibold text-black">Welcome Back</h3>
+        <h3 className="text-xl font-semibold text-black">Xush kelibsiz</h3>
         <p className="text-xs text-slate-700 mt-1.5 mb-6">
-          Please enter your details to log in
+          Iltimos, kirish uchun ma’lumotlaringizni kiriting
         </p>
 
         <form onSubmit={handleLogin} className="space-y-4">
-          {/* Email Input with Suggestions */}
           <div className="relative">
             <Input
               value={email}
               onChange={handleEmailChange}
-              label="Email Address"
-              placeholder="Enter your email"
+              label="Email manzil"
+              placeholder="Email manzilingizni kiriting"
               type="email"
             />
 
@@ -110,21 +106,21 @@ const Login = () => {
           <Input
             value={password}
             onChange={({ target }) => setPassword(target.value)}
-            label="Password"
-            placeholder="Enter your password (min. 8 characters)"
+            label="Parol"
+            placeholder="Parolingizni kiriting (kamida 8 belgidan)"
             type="password"
           />
 
           {error && <p className="text-red-500 text-[11px] mb-2">{error}</p>}
 
           <button className="btn-primary w-full mt-2 py-3" type="submit">
-            Login
+            Kirish
           </button>
 
           <p className="text-[13px] text-slate-800 mt-4 text-center">
-            Don&apos;t have an account?{' '}
+            Hisobingiz yo‘qmi?{' '}
             <Link to="/signup" className="font-semibold text-primary underline">
-              Sign Up
+              Ro‘yxatdan o‘tish
             </Link>
           </p>
         </form>
